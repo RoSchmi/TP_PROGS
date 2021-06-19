@@ -1,0 +1,16 @@
+program CON_READ;
+(*$A+,R-,V-*)
+(**)
+uses crt;
+var
+  readRes : Char; 
+begin
+writeln(' Hello, type a number on the keyboard');
+readRes := ReadKey;
+if readRes = #54 then begin
+writeln(' Not a number ');
+else
+writeln(' Not a number ');
+end
+(*Make;File(DatF,'MYDATS.DAT', CustRegSize)*);
+end.
