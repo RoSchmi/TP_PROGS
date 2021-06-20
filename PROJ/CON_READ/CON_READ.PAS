@@ -9,8 +9,7 @@ var
 begin
 writeln(' Hello, type a number on the keyboard');
 
-readRes
-:= #0;
+readRes := #0;
 
 while (not ((readRes > #48) and (readRes < #57))) do
 begin

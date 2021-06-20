@@ -14,12 +14,10 @@ readRes
 
 while (not ((readRes > #48) and (readRes < #57))) do
 begin
-readRes := ReadKey;
-(*if readRes > #48 and readRes < #57 then begin *)
+  readRes := ReadKey;
   writeln(' Not a number ');
-  end;
-  writeln('Congrats, you typed a number. End ');
+end;
+writeln('Congrats, you typed a number. End ');
 readRes := ReadKey;
 end.
-(*Make;File(DatF,'MYDATS.DAT', CustRegSize)*)
 
