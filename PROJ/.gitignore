@@ -1,0 +1,28 @@
+# .gitignore
+# Erstmal alles ignorieren
+*
+!.gitignore
+
+## Only include this folders
+!/CON_READ/
+!/CON_READ/**
+
+!/COMWRITE/
+!/COMWRITE/**
+
+!/COM_IO/
+!/COM_IO/**
+
+!/COM1READ/
+!/COM1READ/**
+
+
+
+
+
+
+
+
+
+
+

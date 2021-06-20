@@ -3,19 +3,37 @@
 program COM1READ;
 (*$A+,R-,V-*)
 
+(* A+ = Generate absolute instructions *)
+(* R- = BereichsÅberprÅfung aus *)
+(* V- = Keine LÑngenÅberprÅfung be Strings *)
+
 uses crt, dos;
 var
   readRes : Char;
-  Lst: Text;
+  Lst : Text;
+  est, ioresult : Integer;
 begin
 Assign(Lst,'COM1');
-(* Open(Lst); *)
-(* Rewrite(Lst); *)
+{$i-}
+{ Reset(Lst); }
+{ est := IOResult; }
+  {i+}
+{ writeln(est);  }
+{ if est <> 0 then }
+
+writeln('was not Null');
+
+writeln('Io-result was Null');
+
+readRes := ReadKey;
+{ read(LST, readRes); }
+                                            (* Close(Lst); *)
+                                            (* Rewrite(Lst); *)
 writeln('Press key to send to COM1');
 readRes := ReadKey;
-(* writeln(Lst, 'Eine Textausgabe'); *)
+writeln(Lst, 'Eine Textausgabe');
 read(Lst, readRes);
-while ( not Eof(Lst)) do
+{ while ( not Eof(Lst)) do }
 begin
   Read(Lst, readRes);
   write(readRes);
