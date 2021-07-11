@@ -18,6 +18,24 @@ SORT.BOX
 
 The code of this includes is not added here because of copyright questions and must be received elsewhere for compilation.
 
+The Turbo Pascal v3 compiler to compile theis application can be obtained free:
+
+http://bdn.borland.com/article/0,1410,20792,00.html
+
+For infos about the Tool Box functions look here:
+
+Turbo Pascal V3 Reference Manual
+
+http://bitsavers.org/pdf/borland/turbo_pascal/Turbo_Pascal_Version_3.0_Reference_Manual_1985.pdf
+
+Emulator:
+
+https://www.pcjs.org/software/pcx86/lang/borland/pascal/3.00b/
+
+
+
+
+
 
 
 
