@@ -20,7 +20,8 @@ The code of this includes is not added here because of copyright questions and m
 
 The Turbo Pascal v3 compiler to compile theis application can be obtained free:
 
-http://bdn.borland.com/article/0,1410,20792,00.html
+https://web.archive.org/web/20031207141013/http://bdn.borland.com/article/0,1410,20792,00.html
+
 
 For infos about the Tool Box functions look here:
 
