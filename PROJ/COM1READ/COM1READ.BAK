@@ -15,23 +15,41 @@ var
 begin
 Assign(Lst,'COM1');
 {$i-}
-{ Reset(Lst); }
-{ est := IOResult; }
-  {i+}
-{ writeln(est);  }
-{ if est <> 0 then }
-
-writeln('was not Null');
-
-writeln('Io-result was Null');
+Reset(Lst);
+{ Open(Lst); }
+est := IOResult;
+{$i+}
+if est <> 0 then
+begin
+writeln('Io-result (Reset) was not Null');
+write(est);
+Writeln('');
+end
+else
+writeln('IO-Result (Reset) was Null (o.k)');
+writeln('Type a key to continue and send character via COM port');
+{$i-}
+readRes := ReadKey;
+read(LST, readRes);
+est := IOResult;
+{$i+}
+if est <> 0 then
+begin
+writeln('Io-result(reading char) was not Null');
+write(est);
+Writeln('');
+end
+else
+begin
+writeln('IO-Result (Reading char) was Null (o.k)');
+write(readRes);
+writeln('');
+end;
+writeln('After attempt to read first character, Press key to continue');
+Reset(Lst);
 
 readRes := ReadKey;
-{ read(LST, readRes); }
-                                            (* Close(Lst); *)
-                                            (* Rewrite(Lst); *)
-writeln('Press key to send to COM1');
-readRes := ReadKey;
-writeln(Lst, 'Eine Textausgabe');
+
 read(Lst, readRes);
 { while ( not Eof(Lst)) do }
 begin
@@ -47,6 +65,9 @@ readRes := #0;
 (* end; *)
 writeln('Look if you have received ');
 readRes := ReadKey;
+
+Close(Lst);
+est := IOResult;
 end.
 
 

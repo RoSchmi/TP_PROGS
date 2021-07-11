@@ -12,15 +12,24 @@ uses crt, dos;
 var
   readRes : Char;
   Lst : Text;
-  writeRes : Integer;
+  cmdRes : Integer;
 begin
 Assign(Lst,'COM1');
+{$I-}
 Rewrite(Lst);
+cmdRes := IOResult;
+{$I+}
+if (cmdRes <> 0) then
+  writeln('Error: Couldnt reset COM1')
+  else
+  writeln('Resetting COM1 was successful');
 writeln('Press key to send to COM1');
 readRes := ReadKey;
-writeln(Lst, 'Eine Textausgabe');
-writeRes := IOResult;
-if (IOResult <> 0) then
+{$I-}
+writeln(Lst, 'A message\r\nA second message\r\nA third message');
+cmdRes := IOResult;
+{$I+}
+if (cmdRes <> 0) then
   writeln('Error: Writing via COM port failed')
   else
   writeln('Writing to COM port was successful');

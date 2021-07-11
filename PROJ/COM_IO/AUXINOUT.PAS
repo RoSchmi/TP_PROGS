@@ -1,7 +1,7 @@
 unit AuxInOut;
 
 interface
-uses Dos;
+{  uses Dos; }
 
 procedure AssignAux(var F: Text; Port, Params: Word);
 
@@ -173,13 +173,14 @@ program TestAux;
   var
     Com1 : Text;
   begin
-    AssignAux(Com1,0,$83);
+  {  AssignAux(Com1,0,$83);  }
+    AssignAux('Com1',0,$83);
     Rewrite(Com1);
     Writeln(Com1,'evice drivers are fun!');
     Close(Com1);
   end;
 
-/*
+(*
 
 program Testexit;
   var
