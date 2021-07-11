@@ -25,6 +25,8 @@ https://web.archive.org/web/20031207141013/http://bdn.borland.com/article/0,1410
 
 For infos about the Tool Box functions look here:
 
+http://bitsavers.informatik.uni-stuttgart.de/pdf/borland/turbo_pascal/Turbo_Database_Toolbox_1985.pdf
+
 Turbo Pascal V3 Reference Manual
 
 http://bitsavers.org/pdf/borland/turbo_pascal/Turbo_Pascal_Version_3.0_Reference_Manual_1985.pdf
