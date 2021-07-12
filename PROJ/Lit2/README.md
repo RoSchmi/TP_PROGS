@@ -6,7 +6,7 @@ The binaries will only run under DOS.
 The application is kind of a database application to retrieve articles of medical literature.
 The headers of the articles as well as the authors and keywords were entered to later retrieve 
 the relevant articles by making a keyword specific search.
-I used this application for several years having more than 1000 articles and more than 100 keywords.
+I used this application for several years having more than 1000 articles and more than 1000 keywords.
 Later on, under newer versions of Windows and under newer processors, DOS applications could not longer be run and the application had to retire.
 
 The application makes use of functions of the Turbo Pascal Toolbox:
@@ -16,7 +16,7 @@ DELKEY.BOX
 GETKEY.BOX
 SORT.BOX
 
-The code of this includes is not added here because of copyright questions and must be received elsewhere for compilation.
+The code of some of this includes is not added here because of copyright questions and must be received elsewhere for compilation.
 
 The Turbo Pascal v3 compiler to compile theis application can be obtained free:
 
