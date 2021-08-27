@@ -27,6 +27,7 @@ type   	deintrag    	= array [0..31] of byte;
 var     dirbuf	: directory;
 	datbuf	: daten;
 	wahl	: char;
+        dummyChar : char;
 	msdrv, physdsk, frdircnt, frblkcnt: integer;
 	bufvoll	: boolean;
 	freidir	:  set of 1..MAXDIR;
@@ -87,9 +88,9 @@ begin
 	writeln	(' (2)   Log in new CP/M-Diskette');
 	writeln	(' (3)   Copy File from CP/M to DOS');
 	writeln	(' (4)   Copy File from DOS to CP/M');
-	writeln	(' (5)   Delete CP/M-File, not implemented');
+	writeln	(' (5)   Delete CP/M-File');
 	writeln	(' (6)   Use other Disk-Drive for CP/M-Diskette');
-	writeln	(' (7)	 Programm End');
+	writeln	(' (7)   Programm End');
 	writeln	(' (?)   Show this list');
 end;
 
@@ -98,13 +99,13 @@ procedure init;
 begin
 	bufvoll   := false;
 	clrscr;
- 	writeln  ('Dateitransfer zwischen CP/M und MS-/PC-DOS');
+ 	writeln  ('Filetransfer from/to CP/M and MS-/PC-DOS');
 	writeln;
 	repeat
-		write  ('Welches phys.   Laufwerk enthaelt die CP/M-Diskette? (0- 3) ');
+		write  ('Which Drive holds CP/M-Diskette? (0- 3) ');
 		readln (physdsk) until physdsk in [0..3];
 	repeat
-		write ('Welches phys. Laufwerk enthaelt die DOS-Diskette? (0-3) ');
+		write ('Which drive holds DOS-Diskette? (0-3) ');
  		readln (msdrv) until msdrv in [0..3]-[physdsk];
 		menu
 end;
@@ -136,7 +137,7 @@ if  (register.ax and $FF00)   <>  0 then
 	retry := retry + 1;
 	if retry >  3 then
           begin
-	     writeln  ('Fehler beim Diskzugriff CP/M-Disk');
+	     writeln  ('Error Disk access CP/M-Disk');
 	     halt
           end;
 until register.ax and $FF00 = 0
@@ -173,7 +174,7 @@ procedure lese_directory;
 begin
 	rw_block  (0,dirbuf [1,0],2);
 	rw_block  (1,dirbuf [33,0],2);
-        writeln ('Block gelesen');
+        writeln ('Block read, Files on Drive are: ');
 	(* log (msdrv); *)
         logdrive(msdrv);
 	bufvoll  := true;
@@ -260,7 +261,7 @@ begin
   finde_eintrag := i;
 end;
 
-procedure kopiere_cm;
+procedure kopiere_cm;  (* Copy from CPM to DOS *)
 var cfname,  mfname: filename;
 mfile: file;
 i, j, count, extent,  reccount: integer;
@@ -268,7 +269,11 @@ dummyChar : char;
 error: boolean;
 begin
     if not bufvoll then lese_directory;
-    write ('Bitte CP/M-Filenamen eingeben: ');
+    write ('Please enter CP/M-Filename: ');
+    While KeyPressed do
+    begin
+      dummyChar := ReadKey;
+    end;
     readln (cfname);
     readln (cfname);
     writeln(cfname);
@@ -276,7 +281,7 @@ begin
     if finde_eintrag(cfname,0) <= MAXDIR then
     begin
        repeat
-          write ('Bitte DOS-File-Narnen eingeben: ');
+          write ('Please enter DOS-File-Name: ');
           while KeyPressed  do
           begin
             dummyChar := ReadKey;
@@ -286,7 +291,7 @@ begin
      {$I-} rewrite (mfile); {$I+}
           error := ioresult <> 0;
           if error then
-             writeln ('DOS-Datei kann nicht geschrieben werden!')
+             writeln ('DOS-File could not be written!')
        until not error;
        extent  := 0;
        repeat
@@ -308,7 +313,7 @@ begin
       until dirbuf[i,15] < RECPEREINT;
    close (mfile)
  end
- else writeln ('File nicht im Directory!')
+ else writeln ('File not found in Directory!')
 end;
 
 procedure namenseintrag  (fname:filename; extent, eintrag:integer);
@@ -343,30 +348,32 @@ begin
        for i  := 13 to 31 do dirbuf[eintrag,i]  := 0
 end;
 
-procedure kopiere_mc;
+procedure kopiere_mc;   (* Copy from DOS to CP/M-86 *)
 var cfname, mfname: filename;
 mfile: file;
 dummyChar : Char;
 reccount, extent, recstoread, datzeiger, eintzeiger,dirzeiger, i, j : integer;
 begin
 	if not bufvoll then lese_directory;
-	write ('Bitte DOS-File-Namen eingeben: ');
+	write ('Please enter DOS-File-Name: ');
         while KeyPressed do
         begin
           dummyChar := ReadKey;
         end;
-	readln  (mfname) ;
+	readln  (mfname);
         readln (mfname);
 	assign (mfile, mfname) ;
      {$I-} reset(mfile); {$I+}
 	if ioresult = 0 then
         begin
 	   repeat
-	       write ('Bitte CP/M-File-Namen eingeben; ');
+	       write ('Please enter CP/M-File-Name: ');
                readln (cfname);
                cfname := stupcase(cfname)
            until erlaubt(cfname);
-           reccount := FileSize(mfile);
+           reccount := FileSize(mfile);  (* Size of DOS-File *)
+           writeln('Filesize is: ');
+           writeln(reccount);
            if ((reccount -1 ) div 8 < frblkcnt) and
            (reccount div RECPEREINT < frdircnt) then
            begin
@@ -415,16 +422,22 @@ rw_block (1,dirbuf[33,0], 3);
 (* log(msdrv) *)
 logdrive(msdrv);
 end
-else writeln ('Diskette oder Directory voll!')
+else writeln ('Diskette or Directory full!')
 end
-else writeln ('DOS-File nicht gefunden!')
+else writeln ('DOS-File not found!')
 end;
 
 procedure loesche;
 var cfname: filename;
 i, j: integer;
+dummyChar : char;
 begin
-	write ('Welches CP/M-File soll geloescht werden? ');
+	write ('Enter CP/M-File to delete: ');
+        while KeyPressed do
+        begin
+           dummyChar := ReadKey;
+        end;
+        readln (cfname);
 	readln (cfname);
 	if length(cfname)  > 0 then begin
 	cfname := stupcase(cfname);
@@ -445,7 +458,7 @@ begin
              logdrive(msdrv);
            scanfrei
          end
-	 else writeln ('File nicht im Directory!')
+	 else writeln ('File not found in Directory!')
       end
 end;
 
@@ -455,7 +468,11 @@ init;
 writeln;
 repeat
    	repeat
-           write ('Command:');
+           write ('Command (1 - 7, ? for Menu): ');
+           while KeyPressed do
+           begin
+             dummyChar := ReadKey;
+           end;
 	   read  (wahl);
            writeln;
            if not (wahl in ['1'..'7','?']) then writeln ('????')
@@ -468,12 +485,12 @@ case wahl of
       end;
 '3' : kopiere_cm;
 '4' : begin
-      (* kopiere_mc; *)
-      writeln('Not implemented');
+      kopiere_mc;
+     (*  writeln('Not implemented'); *)
       end;
 '5' : begin
-       (*  loesche; *)
-      Writeln('Not implemented');
+       loesche;
+      (* Writeln('Not implemented'); *)
       end;
 '6' : init;
 '?' : menu
