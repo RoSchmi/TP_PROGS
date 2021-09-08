@@ -302,6 +302,7 @@ begin
           while reccount > 0 do
           begin
              rw_block(dirbuf[i,j], datbuf[count,0], 2);
+             j := j + 1;
              count  := count + RECPERBLK;
              reccount  := reccount - RECPERBLK
           end;
@@ -469,32 +470,22 @@ writeln;
 repeat
    	repeat
            write ('Command (1 - 7, ? for Menu): ');
-           while KeyPressed do
-           begin
-             dummyChar := ReadKey;
-           end;
-	   read  (wahl);
-           writeln;
+           wahl := '0';
+	   read (wahl);
            if not (wahl in ['1'..'7','?']) then writeln ('????')
-            until wahl in ['1'..'7','?'];
-case wahl of
-'1': zeige_directory;
-'2': begin
-      lese_directory;
-      zeige_directory;
-      end;
-'3' : kopiere_cm;
-'4' : begin
-      kopiere_mc;
-     (*  writeln('Not implemented'); *)
-      end;
-'5' : begin
-       loesche;
-      (* Writeln('Not implemented'); *)
-      end;
-'6' : init;
-'?' : menu
-end
+        until wahl in ['1'..'7','?'];
+        case wahl of
+           '1': zeige_directory;
+           '2': begin
+                  lese_directory;
+                  zeige_directory;
+                end;
+           '3' : kopiere_cm;
+           '4' : kopiere_mc;
+           '5' : loesche;
+           '6' : init;
+           '?' : menu
+        end;
 until wahl = '7'
 end.
 
